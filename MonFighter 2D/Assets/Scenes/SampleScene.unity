@@ -1761,18 +1761,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3eb3e7d98fbfa145a92e8bacaf19321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: {fileID: 2017109154}
   Player: {fileID: 842368683}
-  speed: 3
+  speed: 2
   distance: 10
-  radius: 5
+  radius: 4
   StartwaitTime: 2
-  MoveSpeed: 5
   minX: 4.5
   maxX: 12.5
   minY: -10.5
   maxY: -2.5
   Enemy: {fileID: 870320247}
   Spot: {fileID: 1631233954}
+  spotted: 0
 --- !u!212 &870320246
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5485,6 +5486,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2017109154 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8677186853058372690, guid: c8d8edb6346ffbd42a775cf3faa5f11a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6522095555742117714}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cd99218d956b9c48a32ee46741ba41a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &607307315732177887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5715,7 +5728,7 @@ PrefabInstance:
     - target: {fileID: 7534172082746285681, guid: c8d8edb6346ffbd42a775cf3faa5f11a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8d8edb6346ffbd42a775cf3faa5f11a, type: 3}

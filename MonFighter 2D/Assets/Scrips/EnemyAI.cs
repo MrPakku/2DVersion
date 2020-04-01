@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class EnemyAI : MonoBehaviour
 {
+    public Levelloader level;
 
     public Transform Player;
 
@@ -13,7 +15,6 @@ public class EnemyAI : MonoBehaviour
 
     public float StartwaitTime;
     private float waitTime;
-    public float MoveSpeed;
 
     public float minX;
     public float maxX;
@@ -23,6 +24,7 @@ public class EnemyAI : MonoBehaviour
     public Transform Enemy;
     public Transform Spot;
 
+    public bool spotted;
     private void Start()
     {
         waitTime = StartwaitTime;
@@ -35,30 +37,37 @@ public class EnemyAI : MonoBehaviour
     {
         
         //enemy detaction
-        RaycastHit2D hitinfo = Physics2D.CircleCast(Enemy.position, radius, Enemy.position, distance);
-        Debug.Log(hitinfo.collider.CompareTag("Player"));
+        spotted = Physics2D.CircleCast(Enemy.position, radius, Enemy.position, distance).collider.CompareTag("Player");
+        Debug.Log(Physics2D.CircleCast(Enemy.position, radius, Enemy.position, distance).collider.CompareTag("Player"));
         
-        if (hitinfo.collider.CompareTag("Player"))
+        if (spotted)
         {
-
+            Player = GameObject.FindGameObjectWithTag("Player").transform;
             Enemy.position = Vector2.MoveTowards(Enemy.position, Player.position, speed * Time.deltaTime);
 
+            bool Tag = false;
+
+            while(!Tag)
+            {
+                if (Vector2.Distance(Enemy.position, Player.position) <= 1)
+                {
+                    level.BattleHud();
+                    Tag = true;
+                }
+                else
+                {
+                    Enemy.position = Vector2.MoveTowards(Enemy.position, Player.position, speed * Time.deltaTime);
+
+                }
+            }
             
           
-            if (Vector2.Distance(Enemy.position, Player.position) <= 1)
-            {
-                Destroy(hitinfo.collider.gameObject);
-            }
-            else
-            {
-                Enemy.position = Vector2.MoveTowards(Enemy.position, Player.position, speed * Time.deltaTime);
-
-            }
+          
             
         }
-        else if (!hitinfo.collider.CompareTag("Player"))
+        else
         {
-            Enemy.position = Vector2.MoveTowards(Enemy.position, Spot.position, MoveSpeed * Time.deltaTime);
+            Enemy.position = Vector2.MoveTowards(Enemy.position, Spot.position, speed * Time.deltaTime);
 
 
             if (Vector2.Distance(Enemy.position, Spot.position) < 0.2f)

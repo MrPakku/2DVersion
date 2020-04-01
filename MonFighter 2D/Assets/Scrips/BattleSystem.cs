@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+
 
 public enum BattleState {START, PLAYERTURN, ENEMYTURN, WON, LOST }
 public class BattleSystem : MonoBehaviour
@@ -22,7 +22,7 @@ public class BattleSystem : MonoBehaviour
 
     public BattleState state;
 
-    private Levelloader load;
+    public Levelloader load;
 
     void Start()
     {
@@ -103,12 +103,12 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.WON)
         {
             dialogueText.text = "Enemy Defeated.";
-            load.BattleHud(SceneManager.GetActiveScene().buildIndex);
+            load.BattleHud();
         }
         else if (state == BattleState.LOST)
         {
             dialogueText.text = "You were defeated.";
-            load.BattleHud(SceneManager.GetActiveScene().buildIndex);
+            load.BattleHud();
         }
     }
 

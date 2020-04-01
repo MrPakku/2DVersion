@@ -14,14 +14,15 @@ public class Levelloader : MonoBehaviour
         StartCoroutine(Loadlevel(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
-    public void BattleHud(int LevelNR)
+    public void BattleHud()
     {
+        int LevelNR;
 
         LevelNR = SceneManager.GetActiveScene().buildIndex;
-        LevelNR = 0;
+
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            StartCoroutine(Loadlevel(LevelNR));
+            StartCoroutine(Loadlevel(LevelNR -1));
         }
         else
         {

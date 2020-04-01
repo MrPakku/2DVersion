@@ -8,26 +8,25 @@ public class Levelloader : MonoBehaviour
     public Animator transition;
 
     public float transitionTime = 1f;
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            StartCoroutine(Loadlevel(1));
-        }
-        else if (Input.GetMouseButtonDown(0))
-        {
-            LoadNextLevel();
-        }
-    }
-
+ 
     public void LoadNextLevel()
     {
         StartCoroutine(Loadlevel(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
-    public void BattleHud()
+    public void BattleHud(int LevelNR)
     {
-        StartCoroutine(Loadlevel(1));
+
+        LevelNR = SceneManager.GetActiveScene().buildIndex;
+        LevelNR = 0;
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            StartCoroutine(Loadlevel(LevelNR));
+        }
+        else
+        {
+            StartCoroutine(Loadlevel(1));
+        }
     }
     IEnumerator Loadlevel(int levelIndex)
     {

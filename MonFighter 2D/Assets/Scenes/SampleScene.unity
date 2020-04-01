@@ -198,7 +198,7 @@ Transform:
   m_Children:
   - {fileID: 870320247}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &264229265
 GameObject:
@@ -1484,7 +1484,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.5185933
+  orthographic size: 4.923469
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1692,12 +1692,11 @@ GameObject:
   m_Component:
   - component: {fileID: 870320247}
   - component: {fileID: 870320246}
-  - component: {fileID: 870320248}
   - component: {fileID: 870320243}
   - component: {fileID: 870320244}
   - component: {fileID: 870320245}
   m_Layer: 0
-  m_Name: eagle-attack-1
+  m_Name: eagle-attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1757,14 +1756,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 870320242}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3eb3e7d98fbfa145a92e8bacaf19321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 842368683}
-  moveSpeed: 5
-  distance: 50
+  speed: 3
+  distance: 10
+  radius: 5
+  StartwaitTime: 2
+  MoveSpeed: 5
+  minX: 4.5
+  maxX: 12.5
+  minY: -10.5
+  maxY: -2.5
+  Enemy: {fileID: 870320247}
+  Spot: {fileID: 1631233954}
 --- !u!212 &870320246
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1831,26 +1839,6 @@ Transform:
   m_Father: {fileID: 62184866}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 7.6240005}
---- !u!114 &870320248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 870320242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df402133a7aca394d8cefdd82bbe7ae1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StartwaitTime: 2
-  MoveSpeed: 5
-  minX: 4.5
-  maxX: 12.5
-  minY: -10.5
-  maxY: -2.5
-  Spot: {fileID: 1631233954}
-  Enemy: {fileID: 0}
 --- !u!1 &1168385370
 GameObject:
   m_ObjectHideFlags: 0
@@ -5477,7 +5465,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1631233954}
   m_Layer: 0
-  m_Name: Test Direction
+  m_Name: RandomSpot
   m_TagString: Untagged
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -5492,55 +5480,6 @@ Transform:
   m_GameObject: {fileID: 1631233953}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.78, y: -3.25, z: -4.6684937}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1826755950
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1826755952}
-  - component: {fileID: 1826755951}
-  m_Layer: 0
-  m_Name: RandomSpot
-  m_TagString: Untagged
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1826755951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826755950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c7c8f9f072ec064fa92c00cb56419e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpot: {fileID: 1826755952}
-  StartwaitTime: 3
-  minX: 4.5
-  maxX: 12.5
-  minY: -10.5
-  maxY: -2.5
---- !u!4 &1826755952
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826755950}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.33, y: -6, z: -1.6759933}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -5637,6 +5576,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607307314870250413, guid: 0cab52f1c8bce9c4983572d91e7067fe,
+        type: 3}
+      propertyPath: m_Name
+      value: eagle-attack
       objectReference: {fileID: 0}
     - target: {fileID: 3991754171177459194, guid: 0cab52f1c8bce9c4983572d91e7067fe,
         type: 3}

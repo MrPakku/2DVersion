@@ -12,6 +12,10 @@ public class Levelloader : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            StartCoroutine(Loadlevel(1));
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
             LoadNextLevel();
         }
     }
@@ -21,6 +25,10 @@ public class Levelloader : MonoBehaviour
         StartCoroutine(Loadlevel(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
+    public void BattleHud()
+    {
+        StartCoroutine(Loadlevel(1));
+    }
     IEnumerator Loadlevel(int levelIndex)
     {
         transition.SetTrigger("Start");

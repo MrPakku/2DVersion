@@ -10,8 +10,8 @@ public class EnemyAI : MonoBehaviour
     public Transform Player;
 
     public float speed;
-    public float distance;
-    public float radius;
+    public float ChallangeDistance;
+    public float ChaseDistance;
 
     public float StartwaitTime;
     private float waitTime;
@@ -21,56 +21,37 @@ public class EnemyAI : MonoBehaviour
     public float minY;
     public float maxY;
 
-    public Transform Enemy;
     public Transform Spot;
 
     public bool spotted;
     private void Start()
     {
         waitTime = StartwaitTime;
-
-        Spot.position = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
         Player = GameObject.FindGameObjectWithTag("Player").transform;
+        Spot.position = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
+        
 
     }
     private void Update()
     {
         
-        //enemy detaction
-        spotted = Physics2D.CircleCast(Enemy.position, radius, Enemy.position, distance).collider.CompareTag("Player");
-        Debug.Log(Physics2D.CircleCast(Enemy.position, radius, Enemy.position, distance).collider.CompareTag("Player"));
-        
-        if (spotted)
+        if (Vector2.Distance(transform.position, Player.position) <= ChaseDistance)
         {
-            Player = GameObject.FindGameObjectWithTag("Player").transform;
-            Enemy.position = Vector2.MoveTowards(Enemy.position, Player.position, speed * Time.deltaTime);
-
-            bool Tag = false;
-
-            while(!Tag)
+            if (Vector2.Distance(transform.position, Player.position) <= ChallangeDistance)
             {
-                if (Vector2.Distance(Enemy.position, Player.position) <= 1)
-                {
-                    level.BattleHud();
-                    Tag = true;
-                }
-                else
-                {
-                    Enemy.position = Vector2.MoveTowards(Enemy.position, Player.position, speed * Time.deltaTime);
-
-                }
+                level.BattleHUD();
             }
-            
-          
-          
-            
+            else
+            {
+                transform.position = Vector2.MoveTowards(transform.position, Player.position, speed * Time.deltaTime);
+            }
         }
         else
         {
-            Enemy.position = Vector2.MoveTowards(Enemy.position, Spot.position, speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, Spot.position, speed * Time.deltaTime);
 
 
-            if (Vector2.Distance(Enemy.position, Spot.position) < 0.2f)
+            if (Vector2.Distance(transform.position, Spot.position) < 0.2f)
             {
                 if (waitTime <= 0)
                 {
@@ -82,11 +63,5 @@ public class EnemyAI : MonoBehaviour
             }
 
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        UnityEditor.Handles.DrawWireDisc(Enemy.position, Enemy.position, radius);
     }
 }

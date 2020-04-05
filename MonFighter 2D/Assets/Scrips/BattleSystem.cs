@@ -23,10 +23,12 @@ public class BattleSystem : MonoBehaviour
 
     public BattleState state;
 
+    // Scrips
     public Levelloader load;
     public LevelSystem level;
     public ContinueField con;
     public Player Pl;
+    public AttackandEvadecalculation Attack;
 
     void Start()
     {
@@ -44,11 +46,13 @@ public class BattleSystem : MonoBehaviour
         GameObject enemyGo = Instantiate(EnemyPrefab, enemyBattleStation);
         enemyUnit = enemyGo.GetComponent<Unit>();
 
-
+        playerUnit.UpdateStats();
+        enemyUnit.UpdateStats();
         dialogueText.text = "A wild " + enemyUnit.unitName + " attckes.";
-
+        Debug.Log(playerUnit.unitName + playerUnit.unitLvL + playerUnit.damage);
         playerHUD.SetHudPlayer(playerUnit);
         enemyHUD.SetHudEnemy(enemyUnit);
+        Attack.TypeCompare(playerUnit, enemyUnit);
 
         yield return new WaitForSeconds(2f);
 
@@ -59,8 +63,11 @@ public class BattleSystem : MonoBehaviour
         }
         else
         {
+            yield return new WaitForSeconds(1f);
+            dialogueText.text = "The Enemy is faster than you and Attcks first.";
+            yield return new WaitForSeconds(2f);
             state = BattleState.ENEMYTURN;
-            EnemyTurn();
+            StartCoroutine(EnemyTurn());
         }
         
     }
@@ -77,7 +84,9 @@ public class BattleSystem : MonoBehaviour
         switch (option)
         {
             case 1:
-                fainted = enemyUnit.TakeDamage(playerUnit.damage + 5);
+                Attack.EvadeCheck(playerUnit, enemyUnit);
+                if(Attack.Hit)
+                    fainted = enemyUnit.TakeDamage(playerUnit.damage);
                 break;
             case 2:
                 fainted = enemyUnit.TakeDamage(playerUnit.damage + 10);
@@ -118,16 +127,22 @@ public class BattleSystem : MonoBehaviour
         switch (enemyOption)
         {
             case 1:
-                dialogueText.text = enemyUnit.unitName + " attacks using " + enemyUnit.Attack1;
-                isDead = playerUnit.TakeDamage(enemyUnit.damage);
+                Attack.EvadeCheck(enemyUnit, playerUnit);
+                if (Attack.Hit)
+                    dialogueText.text = enemyUnit.unitName + " attacks using " + enemyUnit.Attack1;
+                    isDead = playerUnit.TakeDamage(enemyUnit.damage);
                 break;
             case 2:
-                dialogueText.text = enemyUnit.unitName + " attacks using " + enemyUnit.Attack2;
-                isDead = playerUnit.TakeDamage(enemyUnit.damage);
+                Attack.EvadeCheck(enemyUnit, playerUnit);
+                if (Attack.Hit)
+                    dialogueText.text = enemyUnit.unitName + " attacks using " + enemyUnit.Attack1;
+                    isDead = playerUnit.TakeDamage(enemyUnit.damage);
                 break;
             case 3:
-                dialogueText.text = enemyUnit.unitName + " attacks using " + enemyUnit.Attack3;
-                isDead = playerUnit.TakeDamage(enemyUnit.damage);
+                Attack.EvadeCheck(enemyUnit, playerUnit);
+                if (Attack.Hit)
+                    dialogueText.text = enemyUnit.unitName + " attacks using " + enemyUnit.Attack1;
+                    isDead = playerUnit.TakeDamage(enemyUnit.damage);
                 break;
             case 4:
                 enemyUnit.Heal(enemyUnit.damage / 3);

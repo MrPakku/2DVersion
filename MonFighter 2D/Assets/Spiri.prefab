@@ -131,13 +131,15 @@ MonoBehaviour:
     Max_Exp: 0
     Max_LvL: 0
   unitName: Blue Kinght
-  unitLvL: 5
+  unitType: Fire
+  unitLvL: 10
   damage: 50
   defens: 4
-  speed: 20
+  speed: 4
   evade: 4
-  maxHP: 20
-  currentHP: 200
+  crit: 5
+  maxHP: 80
+  currentHP: 80
   Attack1: Simple Fireball
   Attack2: Kick
   Attack3: Sword slash

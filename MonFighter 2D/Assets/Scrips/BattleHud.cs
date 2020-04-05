@@ -34,7 +34,7 @@ public class BattleHud : MonoBehaviour
         hpSlider.value = unit.currentHP;
     }
 
-    public void setHP(int HP)
+    public void setHP(float HP)
     {
         hpSlider.value = HP;
     }

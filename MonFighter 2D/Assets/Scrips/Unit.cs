@@ -7,15 +7,17 @@ public class Unit : MonoBehaviour
     public LevelSystem level;
 
     public string unitName;
+    public string unitType;
     public int unitLvL;
 
-    public int damage;
-    public int defens;
-    public int speed;
-    public int evade;
+    public float damage;
+    public float defens;
+    public float speed;
+    public float evade;
+    public float crit;
 
-    public int maxHP;
-    public int currentHP;
+    public float maxHP;
+    public float currentHP;
 
     public string Attack1;
     public string Attack2;
@@ -27,7 +29,6 @@ public class Unit : MonoBehaviour
         level = new LevelSystem(unitLvL, OnLvLUp);
 
         unitLvL = level.currentLvl;
-        UpdateStats();
     }
 
     public void UpdateStats()
@@ -45,7 +46,7 @@ public class Unit : MonoBehaviour
             currentHP = maxHP;
 
         }
-        Debug.Log("damage " + damage + "\ndef" + defens + "\nspeed" + speed + "\nevade" + evade + "\nMaxHP " + maxHP);
+        
     }
     
 
@@ -60,9 +61,7 @@ public class Unit : MonoBehaviour
 
         currentHP = maxHP;
     }
-
-
-    public bool TakeDamage(int dmg)
+    public bool TakeDamage(float dmg)
     {
         currentHP -= (dmg - defens);
 
@@ -73,7 +72,7 @@ public class Unit : MonoBehaviour
 
     }
 
-    public void Heal (int amount)
+    public void Heal(float amount)
     {
         currentHP += amount;
         if (currentHP > maxHP)

@@ -3057,6 +3057,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1909363159}
   - component: {fileID: 1909363158}
+  - component: {fileID: 1909363160}
   m_Layer: 0
   m_Name: BattleSystem
   m_TagString: Untagged
@@ -3094,6 +3095,7 @@ MonoBehaviour:
     Max_LvL: 0
   con: {fileID: 935590429}
   Pl: {fileID: 1057814553}
+  Attack: {fileID: 1909363160}
 --- !u!4 &1909363159
 Transform:
   m_ObjectHideFlags: 0
@@ -3108,6 +3110,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1909363160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909363157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 658f86d14fc79f043bda0794b7f94ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerUnit: {fileID: 3150533809376903610, guid: e575344925cf5d840be85959736602ba,
+    type: 3}
+  enemyunit: {fileID: 8680325048532098888, guid: 436d60b72464bf54e92e9dd92b9e9ab8,
+    type: 3}
+  Battle: {fileID: 1909363158}
 --- !u!1 &2006365921
 GameObject:
   m_ObjectHideFlags: 0

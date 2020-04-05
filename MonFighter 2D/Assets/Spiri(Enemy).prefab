@@ -131,11 +131,13 @@ MonoBehaviour:
     Max_Exp: 0
     Max_LvL: 0
   unitName: Bandit
-  unitLvL: 3
+  unitType: Water
+  unitLvL: 10
   damage: 5
   defens: 5
-  speed: 5
+  speed: 50
   evade: 5
+  crit: 5
   maxHP: 20
   currentHP: 20
   Attack1: Sword Hit

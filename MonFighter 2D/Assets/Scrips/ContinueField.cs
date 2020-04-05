@@ -14,7 +14,7 @@ public class ContinueField : MonoBehaviour
     public void show()
     {
         gameObject.SetActive(true);
-        dialogueText.text = "The Enemy fainted do you\nwant to continue?";
+        dialogueText.text = "The Enemy fainted do you\nwant to kill him?";
     }
 
     public void Hide()

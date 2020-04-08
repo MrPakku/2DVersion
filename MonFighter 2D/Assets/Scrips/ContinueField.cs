@@ -5,16 +5,14 @@ using UnityEngine.UI;
 
 public class ContinueField : MonoBehaviour
 {
-    public Text dialogueText;
     private void Awake()
     {
         Hide();
     }
 
-    public void show()
+    public void Show()
     {
         gameObject.SetActive(true);
-        dialogueText.text = "The Enemy fainted do you\nwant to kill him?";
     }
 
     public void Hide()

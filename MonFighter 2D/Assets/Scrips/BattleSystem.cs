@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public enum BattleState {START, PLAYERTURN, ENEMYTURN, FAINT, DEATH, WON, LOST }
+public enum BattleState {START, PLAYERTURN, ENEMYTURN, FAINT, FROZEN, WON, LOST }
 public class BattleSystem : MonoBehaviour
 {
     public GameObject PlayerPrefab;
@@ -17,7 +17,6 @@ public class BattleSystem : MonoBehaviour
     Unit enemyUnit;
 
     public Text dialogueText;
-    //public Text dialogueText2;
     public BattleHud playerHUD;
     public BattleHud enemyHUD;
 
@@ -27,6 +26,8 @@ public class BattleSystem : MonoBehaviour
     public Levelloader load;
     public LevelSystem level;
     public ContinueField con;
+    public ContinueField PlOP;
+    public ContinueField ChooseAttack;
     public Player Pl;
     public AttackandEvadecalculation Attack;
 
@@ -46,20 +47,22 @@ public class BattleSystem : MonoBehaviour
         GameObject enemyGo = Instantiate(EnemyPrefab, enemyBattleStation);
         enemyUnit = enemyGo.GetComponent<Unit>();
 
-        playerUnit.UpdateStats();
+        playerUnit.UpdateStats(); // this will be at the end of the fight later !
         enemyUnit.UpdateStats();
         dialogueText.text = "A wild " + enemyUnit.unitName + " attckes.";
-        Debug.Log(playerUnit.unitName + playerUnit.unitLvL + playerUnit.damage);
+        
         playerHUD.SetHudPlayer(playerUnit);
+        PlOP.Show();
         enemyHUD.SetHudEnemy(enemyUnit);
-        Attack.TypeCompare(playerUnit, enemyUnit);
 
-        yield return new WaitForSeconds(2f);
+        Debug.Log(playerUnit.unitLvL + "current EXP: " + playerUnit.level.Exp + ", " + playerUnit.damage+ "\n Enemy dmg: " + enemyUnit.damage);
+        yield return new WaitForSeconds(1f);
 
         if(playerUnit.speed >= enemyUnit.speed)
         {
+            yield return new WaitForSeconds(1f);
             state = BattleState.PLAYERTURN;
-            PlayerTurn();
+            dialogueText.text = "Choose an Action.";
         }
         else
         {
@@ -72,9 +75,41 @@ public class BattleSystem : MonoBehaviour
         
     }
 
-    void PlayerTurn()
+    IEnumerator SetupBattleChangeMon()
     {
-        dialogueText.text = "Choose an Action";
+
+        GameObject playerGo = Instantiate(PlayerPrefab, playerBattleStation);
+        playerUnit = playerGo.GetComponent<Unit>();
+
+        GameObject enemyGo = Instantiate(EnemyPrefab, enemyBattleStation);
+        enemyUnit = enemyGo.GetComponent<Unit>();
+
+        playerUnit.UpdateStats(); // this will be at the end of the fight later !
+        enemyUnit.UpdateStats();
+        dialogueText.text = "A wild " + enemyUnit.unitName + " attckes.";
+
+        playerHUD.SetHudPlayer(playerUnit);
+        PlOP.Show();
+        enemyHUD.SetHudEnemy(enemyUnit);
+
+
+        yield return new WaitForSeconds(1f);
+
+        if (playerUnit.speed >= enemyUnit.speed)
+        {
+            yield return new WaitForSeconds(1f);
+            state = BattleState.PLAYERTURN;
+            dialogueText.text = "Choose an Action.";
+        }
+        else
+        {
+            yield return new WaitForSeconds(1f);
+            dialogueText.text = "The Enemy is faster than you and Attcks first.";
+            yield return new WaitForSeconds(2f);
+            state = BattleState.ENEMYTURN;
+            StartCoroutine(EnemyTurn());
+        }
+
     }
     
     IEnumerator PlayerAttack(int option)
@@ -84,15 +119,19 @@ public class BattleSystem : MonoBehaviour
         switch (option)
         {
             case 1:
-                Attack.EvadeCheck(playerUnit, enemyUnit);
-                if(Attack.Hit)
+                Attack.normalEvadeCheck(playerUnit, enemyUnit);
+                if (Attack.Hit)
                     fainted = enemyUnit.TakeDamage(playerUnit.damage);
                 break;
             case 2:
-                fainted = enemyUnit.TakeDamage(playerUnit.damage + 10);
+                Attack.elemetEvadeCheck(playerUnit, enemyUnit);
+                if (Attack.Hit)
+                    fainted = enemyUnit.TakeDamage(playerUnit.damage);
+                Debug.Log(playerUnit.damage);
                 break;
             case 3:
-                fainted = enemyUnit.TakeDamage(playerUnit.damage);
+                enemyUnit.currentHP = 0;
+                fainted = true;
                 break;
         }
         if (enemyUnit.currentHP <= 0)
@@ -106,16 +145,45 @@ public class BattleSystem : MonoBehaviour
 
         if (fainted)
         {
-            con.show();
+            PlOP.Hide();
+            con.Show();
+            dialogueText.text = "The Enemy fainted do you\nwant to kill him?";
             yield return new WaitForSeconds(0.5f);
             state = BattleState.FAINT;
 
         }
         else
         {
-            state = BattleState.ENEMYTURN;
-            StartCoroutine(EnemyTurn());
+            if(state == BattleState.FROZEN)
+            {
+                dialogueText.text = enemyUnit.unitName + " is frozen and cant move.";
+                yield return new WaitForSeconds(1);
+                dialogueText.text = "Choose an Action.";
+            }
+            else
+            {
+                state = BattleState.ENEMYTURN;
+                StartCoroutine(EnemyTurn());
+            }
+            
         }
+    }
+    public void PlayerChosing(string X)
+    {
+        switch (X)
+        {
+            case "Attack":
+                ChooseAttack.Show();
+                break;
+            case "Item":
+                break;
+            case "Run":
+                break;
+            case "Change":
+                break;
+        }
+
+
     }
     IEnumerator EnemyTurn()
     {
@@ -127,19 +195,19 @@ public class BattleSystem : MonoBehaviour
         switch (enemyOption)
         {
             case 1:
-                Attack.EvadeCheck(enemyUnit, playerUnit);
+                Attack.normalEvadeCheck(enemyUnit, playerUnit);
                 if (Attack.Hit)
                     dialogueText.text = enemyUnit.unitName + " attacks using " + enemyUnit.Attack1;
                     isDead = playerUnit.TakeDamage(enemyUnit.damage);
                 break;
             case 2:
-                Attack.EvadeCheck(enemyUnit, playerUnit);
+                Attack.elemetEvadeCheck(enemyUnit, playerUnit);
                 if (Attack.Hit)
                     dialogueText.text = enemyUnit.unitName + " attacks using " + enemyUnit.Attack1;
                     isDead = playerUnit.TakeDamage(enemyUnit.damage);
                 break;
             case 3:
-                Attack.EvadeCheck(enemyUnit, playerUnit);
+                Attack.normalEvadeCheck(enemyUnit, playerUnit);
                 if (Attack.Hit)
                     dialogueText.text = enemyUnit.unitName + " attacks using " + enemyUnit.Attack1;
                     isDead = playerUnit.TakeDamage(enemyUnit.damage);
@@ -165,7 +233,7 @@ public class BattleSystem : MonoBehaviour
         else
         {
             state = BattleState.PLAYERTURN;
-            PlayerTurn();
+            dialogueText.text = "Choose an Action.";
         }
     }
     void Endbattle()
@@ -173,6 +241,9 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.WON)
         {
             dialogueText.text = "Enemy Defeated.";
+            playerUnit.level.addExp(enemyUnit.level.Exp / 20);
+            playerUnit.UpdateStats();
+            Debug.Log(playerUnit.unitLvL);
             //load.lastLevel();
         }
         else if (state == BattleState.LOST)
@@ -228,32 +299,35 @@ public class BattleSystem : MonoBehaviour
     }
     public void ONAttackButton1()
     {
-        if (state != BattleState.PLAYERTURN)
-            return;
-
         StartCoroutine(PlayerAttack(1));
+        ChooseAttack.Hide();
+        PlOP.Show();
     }
 
     public void ONAttackButton2()
     {
-        if (state != BattleState.PLAYERTURN)
-            return;
-
         StartCoroutine(PlayerAttack(2));
+        ChooseAttack.Hide();
+        PlOP.Show();
     }
     public void ONAttackButton3()
     {
-        if (state != BattleState.PLAYERTURN)
-            return;
-
         StartCoroutine(PlayerAttack(3));
+        ChooseAttack.Hide();
+        PlOP.Show();
     }
     public void ONHealButton()
     {
+        StartCoroutine(PlayerHeal());
+        ChooseAttack.Hide();
+        PlOP.Show();
+    }
+    public void Att()
+    {
         if (state != BattleState.PLAYERTURN)
             return;
-
-        StartCoroutine(PlayerHeal());
+        Debug.Log("HIT");
+        PlOP.Hide();
+        PlayerChosing("Attack");
     }
-
 }

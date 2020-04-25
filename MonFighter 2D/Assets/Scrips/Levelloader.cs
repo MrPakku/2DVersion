@@ -7,20 +7,26 @@ public class Levelloader : MonoBehaviour
 {
     public Animator transition;
 
-    public float transitionTime = 1f;
+    public Player player;
+    public PlayerMovment move;
 
-    public int [] LevelNr = new int [1];
-    public int lastLevlNR;
+
+    public float transitionTime = 1f;
+    public Vector2 position;
 
     public void BattleHUD()
     {
-        saveLvlNr();
-        StartCoroutine(Loadlevel(1));
-    }
-
-    public void lastLevel()
-    {
-        StartCoroutine(Loadlevel(LevelNr[lastLevlNR]));
+        if(SceneManager.GetActiveScene().buildIndex != 1)
+        {
+            SavingSystem.SavePlayer(player);
+            PlayerPrefs.SetInt("last LvL", SceneManager.GetActiveScene().buildIndex);
+            StartCoroutine(Loadlevel(1));
+        }
+        else 
+        {
+            StartCoroutine(Loadlevel(PlayerPrefs.GetInt("last LvL")));
+            SavingSystem.LoadPlayer();
+        }
     }
     IEnumerator Loadlevel(int levelIndex)
     {
@@ -31,9 +37,9 @@ public class Levelloader : MonoBehaviour
         SceneManager.LoadScene(levelIndex);
     }
 
-    public void saveLvlNr()
+    public void savePlayer(Player player)
     {
-        lastLevlNR = SceneManager.GetActiveScene().buildIndex;
+        SavingSystem.SavePlayer(player);
     }
 
 }

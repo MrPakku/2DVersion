@@ -15,13 +15,13 @@ public class BattleSystem : MonoBehaviour
     public ContinueField PlOP;
     public ContinueField ChooseAttack;
     public AttackandEvadecalculation Attack;
-    public SpwanEnemy EY;
+    public SpwanEnemy EnemyUnitList;
 
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
 
-    public Units enemyUnit;
-    public Units playerUnit;
+    Units enemyUnit;
+    Units playerUnit;
 
     public Text dialogueText;
     public BattleHud playerHUD;
@@ -37,8 +37,6 @@ public class BattleSystem : MonoBehaviour
 
     void Start()
     {
-        playerUnit = Pl.Monster[MonChoose];
-        enemyUnit = EY.Monster[0];
         state = BattleState.START;
         StartCoroutine(SetupBattle());
         
@@ -46,7 +44,14 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator SetupBattle()
     {
+        GameObject playerGO = Instantiate(Pl.Monster[0], playerBattleStation);
+        playerUnit = Pl.Monster[0].GetComponent<Units>();
+
+        GameObject enemyGO = Instantiate(EnemyUnitList.Monster[0], enemyBattleStation);
+        enemyUnit = EnemyUnitList.Monster[0].GetComponent<Units>();
+
         enemyUnit.UpdateStats();
+        //playerUnit.UpdateStats(); // Remove Later !!
         dialogueText.text = "A wild " + enemyUnit.unitName + " attckes.";
         playerHUD.SetHudPlayer(playerUnit);
         PlOP.Show();
@@ -162,22 +167,18 @@ public class BattleSystem : MonoBehaviour
                 Attack.normalEvadeCheck(enemyUnit, playerUnit);
                 if (Attack.Hit)
                     dialogueText.text = enemyUnit.unitName + " attacks using " + enemyUnit.Attack1;
-                //   isDead = playerUnit.TakeDamage(enemyUnit.damage);
                 break;
             case 2:
                 Attack.elemetEvadeCheck(enemyUnit, playerUnit);
                 if (Attack.Hit)
                     dialogueText.text = enemyUnit.unitName + " attacks using " + enemyUnit.Attack1;
-                // isDead = playerUnit.TakeDamage(enemyUnit.damage);
                 break;
             case 3:
                 Attack.normalEvadeCheck(enemyUnit, playerUnit);
                 if (Attack.Hit)
                     dialogueText.text = enemyUnit.unitName + " attacks using " + enemyUnit.Attack1;
-                // isDead = playerUnit.TakeDamage(enemyUnit.damage);
                 break;
             case 4:
-               // enemyUnit.Heal(enemyUnit.damage / 3);
 
                 enemyHUD.setHP(enemyUnit.currentHP);
                 dialogueText.text = enemyUnit.unitName + " heald himself using " + enemyUnit.Attack4;
@@ -217,12 +218,11 @@ public class BattleSystem : MonoBehaviour
             Won = false;
         }
         
-        //load.BattleHUD();
+        load.BattleHUD();
     }
 
     IEnumerator PlayerHeal()
     {
-        //playerUnit.Heal();
         
         playerHUD.setHP(playerUnit.currentHP);
         dialogueText.text = playerUnit.unitName + " heald himself.";

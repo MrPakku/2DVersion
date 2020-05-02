@@ -27,7 +27,8 @@ public static class SavingSystem
 
             PlayerData data = formatter.Deserialize(stream) as PlayerData;
             stream.Close();
-            
+            File.Delete(path);
+
             return data;
         }
         else

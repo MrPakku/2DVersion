@@ -49,7 +49,7 @@ MonoBehaviour:
   Enemy: {fileID: 0}
   Spawnpoint: {fileID: 0}
   Monster:
-  - {fileID: 11400000, guid: 5201f374ddaf29147a9f6507fd695488, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 6570181379101116042, guid: f4b00f57de4384646aad49f4ef867f88, type: 3}
+  - {fileID: 1917444517467832056, guid: ad07c8e0091a3da43af2ab9f18ee0ef9, type: 3}
+  - {fileID: 63851094371153310, guid: 61dd3e2201c563745ae1d2ac2f3413f6, type: 3}
+  - {fileID: 2215583202101049055, guid: 2c435d3805d95574da7a1c1c0c3b85be, type: 3}

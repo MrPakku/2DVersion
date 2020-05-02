@@ -8,6 +8,7 @@ public class EnemyAI : MonoBehaviour
     public Levelloader level;
 
     public Transform Player;
+    
 
     public float speed;
     public float ChallangeDistance;
@@ -21,14 +22,14 @@ public class EnemyAI : MonoBehaviour
     public float minY;
     public float maxY;
 
-    public Transform Spot;
+    public Vector2 Spot;
 
     public bool spotted;
     private void Start()
     {
         waitTime = StartwaitTime;
         Player = GameObject.FindGameObjectWithTag("Player").transform;
-        Spot.position = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
+        Spot = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
         
 
     }
@@ -39,6 +40,7 @@ public class EnemyAI : MonoBehaviour
         {
             if (Vector2.Distance(transform.position, Player.position) <= ChallangeDistance)
             {
+                //StartCoroutine(LoadLevel());
                 level.BattleHUD();
             }
             else
@@ -48,14 +50,14 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            transform.position = Vector2.MoveTowards(transform.position, Spot.position, speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, Spot, speed * Time.deltaTime);
 
 
-            if (Vector2.Distance(transform.position, Spot.position) < 0.2f)
+            if (Vector2.Distance(transform.position, Spot) < 0.2f)
             {
                 if (waitTime <= 0)
                 {
-                    Spot.position = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
+                    Spot = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
                     waitTime = StartwaitTime;
 
                 }
@@ -63,5 +65,14 @@ public class EnemyAI : MonoBehaviour
             }
 
         }
+    }
+
+    IEnumerator LoadLevel()
+    {
+        level.BattleHUD();
+
+        yield return new WaitForSeconds(level.transitionTime);
+
+        Destroy(transform);
     }
 }

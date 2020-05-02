@@ -4238,11 +4238,10 @@ MonoBehaviour:
   PlOP: {fileID: 686886948}
   ChooseAttack: {fileID: 1846858813}
   Attack: {fileID: 1909363160}
-  EY: {fileID: 4638947044349082580, guid: aa6db49277957cf4fb77470aaacce0ae, type: 3}
+  EnemyUnitList: {fileID: 4638947044349082580, guid: aa6db49277957cf4fb77470aaacce0ae,
+    type: 3}
   playerBattleStation: {fileID: 1787816565}
   enemyBattleStation: {fileID: 725352417}
-  enemyUnit: {fileID: 0}
-  playerUnit: {fileID: 0}
   dialogueText: {fileID: 2140384542}
   playerHUD: {fileID: 564013014}
   enemyHUD: {fileID: 16752653}

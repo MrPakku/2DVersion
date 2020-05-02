@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int Killcount;
+    public float Killcount;
 
-    public Units[] Monster = new Units[4];
+    public GameObject[] Monster = new GameObject[4];
     
 }

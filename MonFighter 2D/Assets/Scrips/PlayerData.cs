@@ -10,8 +10,11 @@ public class PlayerData
 
     public float[] position;
 
+    public GameObject[] Monster = new GameObject[4];
     public PlayerData (Player player)
     {
+        Monster = player.Monster;
+
         KillCount = player.Killcount;
 
         position = new float[2];
